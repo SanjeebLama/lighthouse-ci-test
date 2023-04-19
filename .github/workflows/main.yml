@@ -1,40 +1,16 @@
 name: Lighthouse CI
-
-on:
-  push:
-    branches:
-      - main
-
+on: push
 jobs:
-  lhci:
+  lighthouse:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
-
-      # Build your Next.js app
-      - name: Build
-        run: npm run build
-
-      # Cache the build directory
-      - name: Cache build directory
-        uses: actions/cache@v2.1.4
-        with:
-          path: ~/.next/cache
-          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-build-
-
-      # Run Lighthouse CI
-      - name: Lighthouse CI Action
+      - name: Audit URLs using Lighthouse
         uses: treosh/lighthouse-ci-action@v9
         with:
-          url: https://lighthouse-ci-test-gray.vercel.app/ # Replace with your app URL
-          flags: '--preset=wordpress'
-
-      # Send Lighthouse results to Lighthouse Viewer
-      - name: Publish results to Lighthouse Viewer
-        uses: treosh/lighthouse-viewer-action@v9
-        with:
+          urls: |
+            https://example.com/
+            https://example.com/blog
           budgetPath: ./budget.json # test performance budgets
           uploadArtifacts: true # save results as an action artifacts
           temporaryPublicStorage: true # upload lighthouse report to the temporary storage
