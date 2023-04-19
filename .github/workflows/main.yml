@@ -25,7 +25,7 @@ jobs:
           restore-keys: ${{ runner.os }}-build-
 
       # Run Lighthouse CI
-      - name: Lighthouse
+      - name: Lighthouse CI Action
         uses: treosh/lighthouse-ci-action@v9
         with:
           url: https://lighthouse-ci-test-gray.vercel.app/ # Replace with your app URL
