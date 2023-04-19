@@ -1,7 +1,7 @@
 module.exports = {
 	ci: {
 		collect: {
-			url: ['http://localhost:3000'],
+			url: ['http://localhost:3000', "https://lighthouse-ci-test-gray.vercel.app/"],
 			startServerCommand: 'npm run start',
 		},
 		assert: {
