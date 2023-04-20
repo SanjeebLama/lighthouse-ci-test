@@ -1,4 +1,4 @@
-name: Lighthouse CI C5
+name: Lighthouse CI
 
 on: push
 
