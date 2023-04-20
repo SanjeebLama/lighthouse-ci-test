@@ -3,7 +3,7 @@ name: CI
 on: push
 
 jobs:
-  build-and-test1:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
