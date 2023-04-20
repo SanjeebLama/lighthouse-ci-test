@@ -9,6 +9,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
       - name: Install Dependencies
         run: npm install
 
@@ -30,7 +35,7 @@ jobs:
           echo "PREVIEW_URL=$preview_url" >> $GITHUB_ENV
 
       - name: Run Lighthouse Tests
-        run: npx lhci autorun
+        run: npx lhci autorun --chrome-flags="--headless" --url="https://${preview_url}"
 
       - name: Upload Lighthouse Reports
         uses: actions/upload-artifact@v2
