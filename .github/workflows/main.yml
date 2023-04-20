@@ -2,10 +2,16 @@ name: Lighthouse CI
 
 on: push
 
+env:
+  NODE_ENV: production
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
+      - name: Set NODE_ENV to production
+        run: echo "NODE_ENV=production" >> $GITHUB_ENV
+
       - name: Checkout Code
         uses: actions/checkout@v3
 
