@@ -18,8 +18,8 @@ jobs:
       - name: Deploy to Vercel Preview
         uses: amondnet/vercel-action@v20
         with:
-          args: --build-env CI=true --target preview
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-args: --confirm
 
       - name: Wait for Deployment
         run: |
