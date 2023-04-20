@@ -38,7 +38,7 @@ jobs:
           echo "PREVIEW_URL=$preview_url" >> $GITHUB_ENV
 
       - name: Run Lighthouse Tests
-        run: npx lhci autorun
+        run: npx lhci autorun --chrome-flags="--headless" --url="https://${preview_url}"
 
       - name: Upload Lighthouse Reports
         uses: actions/upload-artifact@v2
