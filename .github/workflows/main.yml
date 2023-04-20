@@ -1,34 +1,34 @@
-name: Lighthouse CI
+name: CI
 
 on: push
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
+      - name: Checkout
         uses: actions/checkout@v2
 
       - name: Install Dependencies
         run: npm install
 
-      - name: Build App
+      - name: Build
         run: npm run build
 
-      - name: Deploy to Vercel Preview
+      - name: Deploy
         uses: amondnet/vercel-action@v20.43.0
         with:
           args: --build-env CI=true --target preview
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
 
       - name: Wait for Deployment
-        uses: zenika/alpine-chrome@sha256:3e61cc52ef611cc186968f5e5e5d5e6b7ddfa26e67be8d2d2ee0ebafcd16926c
-        run: |
-          preview_url=$(curl -s -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" "https://api.vercel.com/v8/now/deployments?projectId=${{ secrets.VERCEL_PROJECT_ID }}&limit=1" | jq -r ".deployments[0].url")
-          while [[ $(curl -sL -w "%{http_code}\\n" "${preview_url}" -o /dev/null) != "200" ]]; do sleep 10; done
+        uses: jakejarvis/wait-for-deployment-action@v1.8.0
+        with:
+          url: ${{ env.VERCEL_URL }}
 
       - name: Run Lighthouse Tests
-        run: npx lhci autorun --chrome-flags="--headless" --url="${preview_url}"
+        run: npx lhci autorun --chrome-flags="--headless" --url="${{ env.VERCEL_URL }}"
 
       - name: Upload Lighthouse Reports
         uses: actions/upload-artifact@v2
