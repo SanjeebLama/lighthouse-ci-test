@@ -2,9 +2,6 @@ name: Lighthouse CI
 
 on: push
 
-env:
-  NODE_ENV: production
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
