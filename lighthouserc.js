@@ -1,7 +1,10 @@
 module.exports = {
 	ci: {
 		collect: {
-			url: [`https://${process.env.PREVIEW_URL}`],
+			url:
+				process.env.NODE_ENV === 'production'
+					? [`https://${process.env.PREVIEW_URL}`]
+					: ['http://localhost:3000/'],
 			startServerCommand:
 				process.env.NODE_ENV === 'production' ? undefined : 'npm run start',
 		},
