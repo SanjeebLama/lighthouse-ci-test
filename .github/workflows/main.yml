@@ -1,15 +1,39 @@
-name: Lighthouse CI
-on: push
+name: Lighthouse Audit
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
-  lighthouse:
+  lighthouse-audit:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Audit URLs using Lighthouse
-        uses: treosh/lighthouse-ci-action@v9
+      - uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          urls: |
-            https://lighthouse-ci-test-gray.vercel.app/
-          budgetPath: ./budget.json # test performance budgets
-          uploadArtifacts: true # save results as an action artifacts
-          temporaryPublicStorage: true # upload lighthouse report to the temporary storage
+          node-version: '14.x'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build App
+        run: npm run build
+
+      - name: Deploy to Vercel Preview
+        uses: amondnet/vercel-action@v20.43.0
+        with:
+          args: --build-env CI=true --target preview
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+
+      - name: Wait for Deployment
+        run: sleep 60s
+
+      - name: Run Lighthouse Tests
+        uses: treosh/lighthouse-ci-action@v1.0.0
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          VERCEL_PREVIEW_URL: ${{ env.VERCEL_URL }}
