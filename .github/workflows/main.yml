@@ -22,7 +22,6 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
 
       - name: Wait for Deployment
-        uses: jakejarvis/wait-action
         run: |
           preview_url=$(curl -s -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" "https://api.vercel.com/v8/now/deployments?projectId=${{ secrets.VERCEL_PROJECT_ID }}&limit=1" | jq -r ".deployments[0].url")
           while [[ $(curl -sL -w "%{http_code}\\n" "${preview_url}" -o /dev/null) != "200" ]]; do sleep 20; done
