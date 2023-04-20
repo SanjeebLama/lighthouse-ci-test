@@ -27,6 +27,7 @@ jobs:
           preview_url=$(curl -s -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" "https://api.vercel.com/v6/deployments?projectId=${{ secrets.VERCEL_PROJECT_ID }}&limit=1" | jq -r ".deployments[0].url")
           while [[ $(curl -sL -w "%{http_code}\\n" "${preview_url}" -o /dev/null) != "200" ]]; do sleep 10; done
           echo "Deployment finished. Preview URL: $preview_url"
+          echo "::set-env name=PREVIEW_URL::$preview_url"
 
       - name: Run Lighthouse Tests
         run: npx lhci autorun --chrome-flags="--headless" --url="${preview_url}"
