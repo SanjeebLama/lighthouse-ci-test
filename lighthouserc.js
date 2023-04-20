@@ -1,8 +1,8 @@
 module.exports = {
 	ci: {
 		collect: {
-			url: ['http://localhost:3000', 'http://localhost:3000/about', 'http://localhost:3000/contact'],
-			startServerCommand: 'npm run start',
+			url: process.env.NODE_ENV === 'production' ? [process.env.PREVIEW_URL] : ['http://localhost:3000'],
+			startServerCommand: process.env.NODE_ENV === 'production' ? undefined : 'npm run start',
 		},
 		assert: {
 			preset: 'lighthouse:recommended',
