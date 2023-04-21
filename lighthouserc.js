@@ -4,7 +4,7 @@ module.exports = {
 			// Use this for Prod
 			url: [
 				`https://${process.env.PREVIEW_URL}`,
-				// `https://${process.env.PREVIEW_URL}/about`,
+				`https://${process.env.PREVIEW_URL}/about`,
 			],
 
 			//Use this for Local
