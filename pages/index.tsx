@@ -8,7 +8,7 @@ export default function Home() {
 	return (
 		<>
 			<Head>
-				<title>This is title </title>
+				<title>This is title 1 </title>
 				<meta name='description' content='Yo I am description' key='desc' />
 			</Head>
 			<main className='flex min-h-screen flex-col items-center justify-between p-24'>
